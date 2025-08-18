@@ -168,3 +168,8 @@ error.log
 profile_*
 memory_*
 check_security.py
+
+# Personal Documentation (Keep Local Only)
+PROJECT_DOCUMENTATION.md
+PROJECT_SUMMARY.md
+INTERVIEW_SCENARIOS.md
