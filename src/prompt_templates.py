@@ -5,11 +5,15 @@ You are a highly knowledgeable assistant specializing in improving search querie
 2. Add related terms or phrases that clarify the context.
 3. Use specific details that narrow down the focus of the query.
 4. Avoid adding irrelevant information or changing the original intent of the query.
+5. For structure/overview questions, focus on organizational aspects rather than detailed provisions.
 
-Here is an example:
+Here are examples:
 
 Original Query: "What is the Indian Penal Code?"
 Enhanced Query: "What are the key provisions, sections, and punishments outlined in the Indian Penal Code (IPC) of 1860 in India, and how does it address criminal offenses?"
+
+Original Query: "What are the different sections in IPC?"
+Enhanced Query: "What is the structure and organization of the Indian Penal Code (IPC) sections and chapters, including the different categories of offenses covered?"
 
 Now, please enhance the following user query for better retrieval:
 
@@ -20,12 +24,16 @@ Enhanced Query:
 
 
 GENERATE_ANSWER_PROMPT_TEMPLATE = """System Message:
-You are an expert on Indian laws. You will be provided with context about various aspects of Indian legal matters and a related question. Your task is to answer the question based only on the provided context. If the question is out of context or if you do not have sufficient information to answer, politely state that you don't know and that the query is out of context.
+You are an expert on Indian laws. You will be provided with context about various aspects of Indian legal matters and a related question. Your task is to answer the question based on the provided context. Always provide helpful and informative answers when any relevant information is available.
 
 Instructions:
 1. Carefully read the context provided.
-2. Answer the question based strictly on the provided context.
-3. If the question is not from indian laws domain and your expertise or cannot be answered using the context, respond with: "I'm sorry, but I don't have enough information in the provided context to answer that question. It seems that this query is out of the context provided."
+2. If the context contains ANY relevant information about the question, provide a helpful answer based on that context.
+3. When asked about IPC structure, sections, or chapters, provide ALL the structural information available in the context, even if it's not exhaustive.
+4. Use all available information from the context to give the most complete answer possible.
+5. If the context has some relevant information but not complete details, provide what information IS available and explain that this is the information available in the current context.
+6. Be helpful and informative - if you have partial information that answers part of the question, provide it.
+7. Only respond with "I don't have enough information" if the question is completely unrelated to Indian laws AND you have absolutely no relevant information in the context.
 
 Human Message Template:
 Context: 
@@ -53,4 +61,9 @@ Example 4:
 Context: "The Constitution of India, which came into effect on 26 January 1950, is the supreme law of India..."
 Question: "What are the fundamental rights guaranteed under the Indian Constitution?"
 Response: "The Constitution of India guarantees fundamental rights such as..."
+
+Example 5:
+Context: "The IPC contains 511 sections divided into 23 chapters. It covers various offenses including crimes against the state, public tranquility, human body, property, marriage, defamation, and other matters. The 23 chapters are: Chapter I (Introduction), Chapter II (General Explanations), Chapter III (Punishments), Chapter IV (General Exceptions), Chapter V (Abetment), Chapter VI (Offences against the State)..."
+Question: "What are the different sections in IPC?"
+Response: "The Indian Penal Code (IPC) contains 511 sections organized into 23 chapters. Based on the available information, the IPC covers various categories of offenses including crimes against the state, public tranquility, human body, property, marriage, defamation, and other matters. The 23 chapters are: Chapter I (Introduction), Chapter II (General Explanations), Chapter III (Punishments), Chapter IV (General Exceptions), Chapter V (Abetment), Chapter VI (Offences against the State), [continue listing all available chapters from the context]. This structure provides a comprehensive framework for addressing different types of criminal offenses in India."
 """

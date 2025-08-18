@@ -1,50 +1,162 @@
 # JusticeGuide - AI Legal Assistant
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-orange.svg)](https://ai.google.dev/)
-[![Streamlit](https://img.shields.io/badge/UI-Streamlit-red.svg)](https://streamlit.io/)
-
-AI-powered legal assistant providing instant access to Indian Penal Code information using advanced RAG architecture.
+An intelligent legal assistant powered by Google Gemini AI that provides accurate answers to questions about Indian law, specifically the Indian Penal Code (IPC).
 
 ## Features
 
-- **RAG Pipeline**: Query enhancement → Retrieval → Reranking → Generation
-- **Dual Interface**: Web app (Streamlit) + REST API (FastAPI)
-- **High Performance**: 2-5s response time, 95%+ accuracy
-- **Cost Effective**: Free vs ₹500-2000+ traditional consultation
+- AI-powered responses using Google Gemini 1.5 Flash
+- Advanced document search and ranking system
+- Automatic query enhancement for better results
+- Dual interface: Web UI (Streamlit) and REST API (FastAPI)
+- Comprehensive Indian Penal Code knowledge base
+- Real-time processing with efficient document reranking
 
-## Tech Stack
+## Technology Stack
 
-**AI**: Google Gemini 1.5 Flash • BGE Reranker • FAISS
-**Backend**: Python 3.11+ • FastAPI • LangChain
-**Frontend**: Streamlit
+- AI Model: Google Gemini 1.5 Flash
+- Backend: Python 3.11+, FastAPI
+- Frontend: Streamlit
+- Document Processing: LangChain, FlagEmbedding
+- Search & Ranking: FAISS, BGE Reranker
+- Data Format: PDF processing with PyPDF2
 
-## Quick Start
+## Prerequisites
 
+- Python 3.11 or higher
+- Google Gemini API key
+- 4GB+ RAM for ML models
+
+## Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/Znaxh/Justice-Guide.git
-cd Justice-Guide
-python -m venv .venv && source .venv/bin/activate
+git clone <repository-url>
+cd JusticeGuide
+```
+
+2. Set up virtual environment:
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+```
+
+3. Install dependencies:
+```bash
 pip install -r requirements.txt
-echo "GEMINI_API_KEY=your_api_key" > .env
-streamlit run streamlit_main.py
+```
+
+4. Configure API key:
+Create a `.env` file in the project root:
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ## Usage
 
-**Web Interface**: http://localhost:8501
-**API**: `uvicorn src.main:app --port 8000`
+### Streamlit Web Application
+```bash
+streamlit run streamlit_main.py
+```
+Access at: http://localhost:8501
 
-**Sample Query**: "What is IPC Section 420?"
+### FastAPI REST API
+```bash
+uvicorn src.main:app --host 0.0.0.0 --port 8000
+```
+Access at: http://localhost:8000
 
-## Architecture
+### API Example
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/",
+    data={"Input": "What is IPC Section 420?"}
+)
+print(response.text)
+```
+
+### Sample Queries
+- "What is the Indian Penal Code?"
+- "What are the different sections in IPC?"
+- "What is IPC Section 420?"
+- "What is the punishment for cheating under IPC?"
+
+## Project Structure
 
 ```
-User Query → Enhancement → Retrieval → Reranking → AI Generation
+JusticeGuide/
+├── src/
+│   ├── main.py                 # FastAPI application
+│   ├── generate_answers.py     # AI answer generation
+│   ├── query_enhancement.py    # Query optimization
+│   ├── data_retrieval.py       # Document retrieval
+│   ├── reranker.py            # Document reranking
+│   └── prompt_templates.py     # AI prompts
+├── templates/
+│   ├── index.html             # FastAPI web interface
+│   └── script.js              # Frontend JavaScript
+├── static/
+│   └── styles.css             # CSS styling
+├── dataset/
+│   └── Indian Penal Code Book (2).pdf  # Legal documents
+├── streamlit_main.py          # Streamlit application
+└── requirements.txt           # Python dependencies
 ```
 
-**Performance**: 2-5s response • 95%+ accuracy • 140+ legal documents
+## Configuration
+
+### Environment Variables
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `GEMINI_API_KEY` | Google Gemini API key | Yes |
+
+### AI Models
+- Primary AI: Google Gemini 1.5 Flash
+- Reranker: BAAI/bge-reranker-base
+- Embeddings: BAAI/llm-embedder
+
+## How It Works
+
+1. Query Processing: User input is enhanced using Gemini AI
+2. Document Retrieval: Relevant legal documents are fetched using FAISS
+3. Reranking: Documents are reordered by relevance using BGE reranker
+4. Answer Generation: Gemini AI generates comprehensive answers
+5. Response Delivery: Results are presented via web interface or API
+
+## Testing
+
+Test the application:
+```bash
+export GEMINI_API_KEY="your_api_key"
+python -c "from src.generate_answers import generate_answer; print(generate_answer('What is IPC?'))"
+```
+
+## Troubleshooting
+
+**"No Gemini API key found"**
+- Ensure `GEMINI_API_KEY` is set in `.env` file
+- Verify the API key is valid and active
+
+**Import errors**
+- Confirm Python 3.11+ is being used
+- Reinstall dependencies: `pip install -r requirements.txt`
+
+**Slow first response**
+- ML models download on first run (normal behavior)
+- Subsequent responses will be faster
+
+**Port already in use**
+- Change port: `streamlit run streamlit_main.py --server.port 8502`
+- Or: `uvicorn src.main:app --port 8001`
+
+## Performance
+
+- Response Time: 2-5 seconds (after model loading)
+- Memory Usage: ~2-4GB (including ML models)
+- Concurrent Users: Supports multiple simultaneous requests
+- Accuracy: High accuracy for Indian legal queries
 
 ## License
 
-MIT License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
