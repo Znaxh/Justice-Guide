@@ -1,15 +1,170 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+src/.env
+config.ini
+config.json
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+api_keys.txt
+credentials.json
+service-account.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Model Cache & AI Models
+.cache/
+models/
+*.model
+*.bin
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.h5
+*.pkl
+*.pickle
+huggingface_cache/
+transformers_cache/
+sentence_transformers/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Streamlit
+.streamlit/
+
+# Database & Data Files
+*.db
+*.sqlite
+*.sqlite3
+*.csv
+*.xlsx
+*.xls
+data/
+database/
+backups/
+
+# Temporary & Test Files
+temp/
+tmp/
+test_files/
+scratch/
+experiments/
+*.tmp
+*.temp
+*_test.py
+*_temp.py
+
+# Documentation Build
+docs/_build/
+site/
+_site/
+
+# Security & Sensitive Files
+passwords.txt
+tokens.txt
+auth.json
+private_keys/
+ssl_certs/
+
+# Project Specific
 secrets.txt
 asklawyers-ec2.pem
-venv
 access_chat_endpoint.py
-src/.env
-.env
 src/try.py
 src/reranking_testing.py
-__pycache__
-src/__pycache__
 excerpts_new.xlsx
 excerpts.xlsx
 src/relevant_documents.xlsx
 src/1.0.0
 src/v1.0.0
+
+# User Uploads & Generated Content
+uploads/
+downloads/
+generated/
+output/
+results/
+
+# Large Files & Media
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.mp3
+*.wav
+*.flac
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Development & Debug
+debug.log
+error.log
+*.debug
+profile_*
+memory_*
+check_security.py

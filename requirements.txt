@@ -1,7 +1,6 @@
-openai
+google-generativeai
 langchain
 langchain_community
-langchain_openai
 langchainhub
 bs4
 pypdf
@@ -9,7 +8,8 @@ python-dotenv
 faiss-cpu
 fastapi
 uvicorn
-boto3
 PyPDF2
 langchain_chroma
 FlagEmbedding
+streamlit
+python-multipart
