@@ -1,0 +1,77 @@
+[
+  {
+    "question": "What is IPC section 302?",
+    "ground_truth": "Section 302 IPC punishes murder with death or imprisonment for life and fine.",
+    "contexts": ["Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine."]
+  },
+  {
+    "question": "Define murder under IPC.",
+    "ground_truth": "Murder is culpable homicide that meets the conditions in Section 300 IPC.",
+    "contexts": ["Culpable homicide is murder if the act is done with the intention of causing death or with the intention of causing bodily injury sufficient in the ordinary course of nature to cause death."]
+  },
+  {
+    "question": "What is cheating under IPC 420?",
+    "ground_truth": "Section 420 punishes cheating and dishonestly inducing delivery of property with imprisonment up to seven years and fine.",
+    "contexts": ["Cheating and dishonestly inducing delivery of property is punishable with imprisonment which may extend to seven years and fine."]
+  },
+  {
+    "question": "What is culpable homicide?",
+    "ground_truth": "Section 299 defines culpable homicide as causing death by act with intention or knowledge of likelihood of death.",
+    "contexts": ["Whoever causes death by doing an act with the intention of causing death, or with the intention of causing bodily injury likely to cause death, commits culpable homicide."]
+  },
+  {
+    "question": "What is the Indian Penal Code?",
+    "ground_truth": "The IPC is India's main substantive criminal code enacted in 1860.",
+    "contexts": ["The Indian Penal Code is the main criminal code of India covering substantive aspects of criminal law."]
+  },
+  {
+    "question": "How many chapters are in the IPC?",
+    "ground_truth": "The IPC is organised into 23 chapters covering different classes of offences.",
+    "contexts": ["The Indian Penal Code contains 511 sections divided into 23 chapters covering offences against the state, public tranquillity, property, and the human body."]
+  },
+  {
+    "question": "What offence is wrongful confinement?",
+    "ground_truth": "Wrongful confinement is voluntarily obstructing someone so they cannot proceed beyond certain limits.",
+    "contexts": ["Wrongful confinement is an offence affecting personal liberty under the IPC when a person is wrongfully confined."]
+  },
+  {
+    "question": "What is theft under IPC?",
+    "ground_truth": "Theft is dishonestly taking movable property out of possession without consent.",
+    "contexts": ["Whoever intending to take dishonestly any movable property out of the possession of any person without that person's consent, moves that property, commits theft."]
+  },
+  {
+    "question": "What is criminal breach of trust?",
+    "ground_truth": "It is dishonest misappropriation or conversion of property entrusted to someone.",
+    "contexts": ["Criminal breach of trust involves property entrusted to the offender being dishonestly misappropriated or converted to wrongful use."]
+  },
+  {
+    "question": "What is defamation under IPC?",
+    "ground_truth": "Defamation is harming reputation by words spoken or intended to be read.",
+    "contexts": ["Defamation under the IPC concerns imputations that harm a person's reputation by spoken or written words."]
+  },
+  {
+    "question": "What is kidnapping from lawful guardianship?",
+    "ground_truth": "Taking a minor under sixteen or a person of unsound mind out of the keeping of lawful guardian.",
+    "contexts": ["Kidnapping from lawful guardianship involves taking or enticing a minor or person of unsound mind out of lawful guardianship."]
+  },
+  {
+    "question": "What is rioting?",
+    "ground_truth": "Unlawful assembly using force or violence for a common object.",
+    "contexts": ["When an unlawful assembly uses criminal force or violence for a common object, members may be guilty of rioting."]
+  },
+  {
+    "question": "What is attempt to commit an offence?",
+    "ground_truth": "Chapter XXIII and general principles cover attempts punishable where the Code expressly provides.",
+    "contexts": ["Attempts to commit offences are punishable where the IPC or other law expressly makes them offences."]
+  },
+  {
+    "question": "What is hurt under IPC?",
+    "ground_truth": "Hurt is bodily pain, disease or infirmity caused to any person.",
+    "contexts": ["Whoever causes bodily pain, disease or infirmity to any person is said to cause hurt."]
+  },
+  {
+    "question": "What is extortion?",
+    "ground_truth": "Putting a person in fear of injury to dishonestly induce delivery of property.",
+    "contexts": ["Extortion is intentionally putting a person in fear of injury to dishonestly induce them to deliver property or valuable security."]
+  }
+]

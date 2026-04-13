@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+      - "${PHOENIX_PORT:-6006}:${PHOENIX_PORT:-6006}"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    environment:
+      PHOENIX_PORT: ${PHOENIX_PORT:-6006}
+      UV_PRERELEASE: allow

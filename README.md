@@ -1,162 +1,120 @@
-# JusticeGuide - AI Legal Assistant
+# JusticeGuide — production RAG (IPC)
 
-An intelligent legal assistant powered by Google Gemini AI that provides accurate answers to questions about Indian law, specifically the Indian Penal Code (IPC).
+RAG legal Q&A over Indian Penal Code materials: **Google Gemini 1.5 Flash** (primary) with **Groq `llama3-8b-8192`** fallback, **LlamaIndex + FAISS** on-disk index (no pickle), **LangChain LCEL** pipeline, **Arize Phoenix** tracing, and **Ragas** evals.
 
-## Features
+## Architecture
 
-- AI-powered responses using Google Gemini 1.5 Flash
-- Advanced document search and ranking system
-- Automatic query enhancement for better results
-- Dual interface: Web UI (Streamlit) and REST API (FastAPI)
-- Comprehensive Indian Penal Code knowledge base
-- Real-time processing with efficient document reranking
-
-## Technology Stack
-
-- AI Model: Google Gemini 1.5 Flash
-- Backend: Python 3.11+, FastAPI
-- Frontend: Streamlit
-- Document Processing: LangChain, FlagEmbedding
-- Search & Ranking: FAISS, BGE Reranker
-- Data Format: PDF processing with PyPDF2
+```
+                    +------------------+
+                    |   POST /api/ask  |
+                    +--------+---------+
+                             |
+                             v
+              +------------------------------+
+              |  query_enhancement (LCEL)    |  run_name: query_enhancement
+              |  Gemini / Groq             |
+              +--------------+-------------+
+                             |
+                             v
+              +------------------------------+
+              |  retriever (lazy)          |  run_name: retriever_faiss
+              |  LlamaIndex CitationQE     |
+              |  + FaissVectorStore        |
+              +--------------+-------------+
+                             |
+                             v
+              +------------------------------+
+              |  answer_generation (LCEL)   |  run_name: answer_generation
+              |  numbered context [1],[2]  |
+              |  Gemini with Groq fallback   |
+              +--------------+-------------+
+                             |
+                             v
+                    JSON + citations
+                             |
+              +--------------+-------------+
+              | Phoenix UI  | structlog    |
+              | (optional)  | + metrics    |
+              +-------------+--------------+
+```
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- Google Gemini API key
-- 4GB+ RAM for ML models
+- Python **3.11–3.13** (see `requires-python` in `pyproject.toml`)
+- [uv](https://docs.astral.sh/uv/) package manager
+- Free API keys: [Google AI Studio (Gemini)](https://aistudio.google.com/apikey), [Groq](https://console.groq.com/keys)
 
-## Installation
+`arize-phoenix` **14.x** pulls a **pre-release** `graphql-core`; `uv` is configured with `prerelease = "allow"` in `pyproject.toml` so locks resolve cleanly.
 
-1. Clone the repository:
+## Setup
+
 ```bash
-git clone <repository-url>
-cd JusticeGuide
+cd Justice-Guide
+cp .env.example .env   # fill GEMINI_API_KEY, GROQ_API_KEY, ADMIN_API_KEY, etc.
+uv sync --all-groups   # include dev deps for tests
 ```
 
-2. Set up virtual environment:
+Place IPC PDFs under `dataset/` (optional nested `dataset/Indian Penal Code Book (2)_chunks/`). If no PDFs are found, a small in-sample index is built so the API still runs.
+
+## Run the API
+
 ```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
+uv run uvicorn src.main:app --host 0.0.0.0 --port 8000
 ```
 
-3. Install dependencies:
+- **Phoenix** (tracing): open `http://127.0.0.1:6006` (override with `PHOENIX_PORT`). Set `SKIP_PHOENIX=1` to disable the UI thread (e.g. tests).
+- **Streamlit** (optional UI): `uv run streamlit run streamlit_main.py`
+
+### JSON ask endpoint
+
+`POST /api/ask` with body `{"query": "..."}` — response includes `disclaimer`, `prompt_version`, `citations`, and optional `estimated_tokens` / `llm_used`.
+
+### Admin (header `X-Admin-Key: $ADMIN_API_KEY`)
+
+- `POST /api/admin/rebuild-index` — rebuild FAISS index in a background thread
+- `POST /api/admin/run-evals` — start Ragas eval job; `GET /api/admin/eval-results/{job_id}` for status
+
+## Evaluations
+
 ```bash
-pip install -r requirements.txt
+uv run python -m src.evals.eval_pipeline
 ```
 
-4. Configure API key:
-Create a `.env` file in the project root:
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
+Uses `data/eval_dataset.json` (≤15 rows), writes `data/eval_results/eval_<timestamp>.json`, and logs metric means via **structlog**.
 
-## Usage
+## Tests
 
-### Streamlit Web Application
 ```bash
-streamlit run streamlit_main.py
+SKIP_PHOENIX=1 uv run pytest
 ```
-Access at: http://localhost:8501
 
-### FastAPI REST API
+Live Gemini end-to-end (slow, uses your quota):
+
 ```bash
-uvicorn src.main:app --host 0.0.0.0 --port 8000
-```
-Access at: http://localhost:8000
-
-### API Example
-```python
-import requests
-
-response = requests.post(
-    "http://localhost:8000/",
-    data={"Input": "What is IPC Section 420?"}
-)
-print(response.text)
+RUN_GEMINI_E2E=1 GEMINI_API_KEY=... SKIP_PHOENIX=1 uv run pytest tests/test_pipeline.py::test_ask_valid_query -v
 ```
 
-### Sample Queries
-- "What is the Indian Penal Code?"
-- "What are the different sections in IPC?"
-- "What is IPC Section 420?"
-- "What is the punishment for cheating under IPC?"
+## Docker
 
-## Project Structure
-
-```
-JusticeGuide/
-├── src/
-│   ├── main.py                 # FastAPI application
-│   ├── generate_answers.py     # AI answer generation
-│   ├── query_enhancement.py    # Query optimization
-│   ├── data_retrieval.py       # Document retrieval
-│   ├── reranker.py            # Document reranking
-│   └── prompt_templates.py     # AI prompts
-├── templates/
-│   ├── index.html             # FastAPI web interface
-│   └── script.js              # Frontend JavaScript
-├── static/
-│   └── styles.css             # CSS styling
-├── dataset/
-│   └── Indian Penal Code Book (2).pdf  # Legal documents
-├── streamlit_main.py          # Streamlit application
-└── requirements.txt           # Python dependencies
-```
-
-## Configuration
-
-### Environment Variables
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GEMINI_API_KEY` | Google Gemini API key | Yes |
-
-### AI Models
-- Primary AI: Google Gemini 1.5 Flash
-- Reranker: BAAI/bge-reranker-base
-- Embeddings: BAAI/llm-embedder
-
-## How It Works
-
-1. Query Processing: User input is enhanced using Gemini AI
-2. Document Retrieval: Relevant legal documents are fetched using FAISS
-3. Reranking: Documents are reordered by relevance using BGE reranker
-4. Answer Generation: Gemini AI generates comprehensive answers
-5. Response Delivery: Results are presented via web interface or API
-
-## Testing
-
-Test the application:
 ```bash
-export GEMINI_API_KEY="your_api_key"
-python -c "from src.generate_answers import generate_answer; print(generate_answer('What is IPC?'))"
+docker compose up --build
 ```
 
-## Troubleshooting
+API: `http://localhost:8000` · Phoenix: `http://localhost:${PHOENIX_PORT:-6006}`. The `./data` volume holds the vector index and eval outputs.
 
-**"No Gemini API key found"**
-- Ensure `GEMINI_API_KEY` is set in `.env` file
-- Verify the API key is valid and active
+## Production features
 
-**Import errors**
-- Confirm Python 3.11+ is being used
-- Reinstall dependencies: `pip install -r requirements.txt`
-
-**Slow first response**
-- ML models download on first run (normal behavior)
-- Subsequent responses will be faster
-
-**Port already in use**
-- Change port: `streamlit run streamlit_main.py --server.port 8502`
-- Or: `uvicorn src.main:app --port 8001`
-
-## Performance
-
-- Response Time: 2-5 seconds (after model loading)
-- Memory Usage: ~2-4GB (including ML models)
-- Concurrent Users: Supports multiple simultaneous requests
-- Accuracy: High accuracy for Indian legal queries
+- **Rate limiting**: 20 requests/minute per IP on `/api/ask` (slowapi)
+- **Request tracing**: `X-Request-ID` on responses; Phoenix + OpenInference for LangChain spans
+- **Structured logging**: structlog with query redaction after 50 characters
+- **Eval pipeline**: Ragas (faithfulness, answer relevancy, context precision) with Gemini as judge
+- **Fallback LLM**: Groq when Gemini fails
+- **Citation-grounded answers**: numbered chunks with `source_file`, `page`, `ipc_section` metadata
+- **Lazy loading**: embeddings and index load on first retrieval, not at import time
+- **No pickle** for embeddings; index under `data/index/` (gitignored)
+- **CORS**: `allow_credentials=False`; origins from `CORS_ORIGINS`
+- **Timeouts**: `ASK_TIMEOUT_SECONDS` (default 30) wraps the async pipeline
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).

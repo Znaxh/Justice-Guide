@@ -1,5 +1,5 @@
 import streamlit as st
-from src.generate_answers import generate_answer
+from src.pipeline import generate_answer
 import time
 
 # Configure page settings

@@ -76,6 +76,7 @@ models/
 *.h5
 *.pkl
 *.pickle
+document_embeddings.pkl
 huggingface_cache/
 transformers_cache/
 sentence_transformers/
@@ -102,7 +103,8 @@ dmypy.json
 *.csv
 *.xlsx
 *.xls
-data/
+data/index/
+data/eval_results/
 database/
 backups/
 
