@@ -4,6 +4,9 @@
 
 [build]
   command = "npm run build"
+  # Must differ from the site "base" (e.g. apps/web); defaulting publish to the
+  # base dir makes @netlify/plugin-nextjs fail with "publish cannot be the same as base"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
