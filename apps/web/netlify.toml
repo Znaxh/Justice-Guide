@@ -1,0 +1,12 @@
+# Next.js is served by the Netlify Next runtime, not as a plain static folder.
+# If the Netlify UI has a "Publish directory" set to this app folder, remove it
+# or leave it blank so this config + the plugin control the output.
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
