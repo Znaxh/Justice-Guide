@@ -34,7 +34,9 @@ logger = structlog.get_logger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_DIR = PROJECT_ROOT / "dataset"
 LEGACY_CHUNK_DIR = DATASET_DIR / "Indian Penal Code Book (2)_chunks"
+CORPUS_DIR = DATASET_DIR / "corpus"
 INDEX_DIR = PROJECT_ROOT / "data" / "index"
+SUPPORTED_INPUT_EXTENSIONS = [".pdf", ".md", ".txt"]
 
 EMBED_DIM = 384
 
@@ -95,10 +97,30 @@ def _sample_documents() -> list[Document]:
     texts = [
         "The Indian Penal Code (IPC) is the main criminal code of India covering substantive criminal law.",
         IPC_OVERVIEW_TEXT,
+        "The IPC was drafted by the First Law Commission chaired by Thomas Babington Macaulay and came into force in 1862.",
+        "Section 34 IPC covers acts done by several persons in furtherance of common intention.",
+        "Section 96 to 106 IPC define the right of private defence and when this right may be exercised.",
+        "Section 141 IPC defines unlawful assembly as an assembly of five or more persons with a common object specified by law.",
+        "Section 149 IPC creates vicarious liability for offences committed by members of an unlawful assembly.",
+        "Section 191 IPC defines giving false evidence; Section 193 prescribes punishment for false evidence.",
         "Section 300 of the Indian Penal Code defines murder when culpable homicide falls within its clauses.",
         "Section 302 of the Indian Penal Code prescribes punishment for murder: death or imprisonment for life, and fine.",
         "Section 299 defines culpable homicide; Section 300 narrows when it amounts to murder.",
+        "Section 304 IPC prescribes punishment for culpable homicide not amounting to murder, with different parts for intention versus knowledge.",
+        "Section 304A IPC punishes causing death by negligence where there is no intention to cause death.",
+        "Section 307 IPC punishes attempt to murder.",
+        "Section 320 IPC lists eight kinds of grievous hurt.",
+        "Section 323 IPC punishes voluntarily causing hurt.",
+        "Section 354 IPC criminalises assault or criminal force to a woman with intent to outrage her modesty.",
+        "Section 376 IPC provides punishment for rape and related aggravated forms.",
+        "Section 378 IPC defines theft as dishonest moving of movable property out of another's possession without consent.",
+        "Section 390 IPC explains robbery as theft or extortion with violence or fear of instant violence.",
+        "Section 405 IPC defines criminal breach of trust.",
         "Section 420 of the IPC deals with cheating and dishonestly inducing delivery of property.",
+        "Section 463 IPC defines forgery as making a false document with intent to cause damage or support a claim.",
+        "Section 499 IPC defines defamation and includes statutory exceptions.",
+        "Section 503 IPC defines criminal intimidation.",
+        "Section 511 IPC provides punishment for attempting offences punishable with imprisonment for life or other imprisonment.",
     ]
     docs: list[Document] = []
     for i, t in enumerate(texts):
@@ -118,26 +140,28 @@ def _sample_documents() -> list[Document]:
 def _pick_input_dir() -> Path | None:
     if LEGACY_CHUNK_DIR.is_dir():
         return LEGACY_CHUNK_DIR
-    if DATASET_DIR.is_dir() and any(DATASET_DIR.rglob("*.pdf")):
+    if DATASET_DIR.is_dir() and any(DATASET_DIR.rglob(f"*{ext}") for ext in SUPPORTED_INPUT_EXTENSIONS):
         return DATASET_DIR
+    if CORPUS_DIR.is_dir() and any(CORPUS_DIR.rglob(f"*{ext}") for ext in SUPPORTED_INPUT_EXTENSIONS):
+        return CORPUS_DIR
     return None
 
 
 def _build_documents() -> list[Document]:
     input_dir = _pick_input_dir()
     if input_dir is None:
-        logger.info("retrieval.no_pdf_dataset", path=str(DATASET_DIR))
+        logger.info("retrieval.no_dataset_files", path=str(DATASET_DIR))
         return _sample_documents()
 
     reader = SimpleDirectoryReader(
         input_dir=str(input_dir),
         recursive=True,
-        required_exts=[".pdf"],
+        required_exts=SUPPORTED_INPUT_EXTENSIONS,
         file_metadata=_file_metadata,
     )
     docs = reader.load_data()
     if not docs:
-        logger.info("retrieval.empty_pdf_load", path=str(input_dir))
+        logger.info("retrieval.empty_dataset_load", path=str(input_dir))
         return _sample_documents()
     return docs
 

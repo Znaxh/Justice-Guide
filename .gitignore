@@ -96,6 +96,13 @@ dmypy.json
 # Streamlit
 .streamlit/
 
+# Next.js frontend
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
+apps/web/.turbo/
+apps/web/.env.local
+
 # Database & Data Files
 *.db
 *.sqlite

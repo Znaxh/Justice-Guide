@@ -73,14 +73,17 @@ def start_observability() -> None:
                     port=config.PHOENIX_PORT,
                 )
 
-    tracer_provider = register(
-        project_name="justice-guide",
-        endpoint=config.PHOENIX_OTLP_ENDPOINT,
-        batch=True,
-    )
-    LangChainInstrumentor(tracer_provider=tracer_provider).instrument(skip_dep_check=True)
+    if config.SKIP_PHOENIX:
+        logger.info("observability.phoenix_skipped")
+    else:
+        tracer_provider = register(
+            project_name="justice-guide",
+            endpoint=config.PHOENIX_OTLP_ENDPOINT,
+            batch=True,
+        )
+        LangChainInstrumentor(tracer_provider=tracer_provider).instrument(skip_dep_check=True)
+        logger.info("observability.langchain_instrumented")
     _instrumented = True
-    logger.info("observability.langchain_instrumented")
 
 
 def record_request(

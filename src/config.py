@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # LLM models
-GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
-GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama3-8b-8192")
+GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
 # API keys
 GEMINI_API_KEY: str | None = os.getenv("GEMINI_API_KEY")
@@ -37,9 +37,20 @@ CORS_ORIGINS: list[str] = [o.strip() for o in _cors_raw.split(",") if o.strip()]
 PHOENIX_PORT: int = int(os.getenv("PHOENIX_PORT", "6006"))
 METRICS_MAXLEN: int = int(os.getenv("METRICS_MAXLEN", "5000"))
 SKIP_PHOENIX: bool = os.getenv("SKIP_PHOENIX", "0").lower() in ("1", "true", "yes")
-PHOENIX_OTLP_ENDPOINT: str = os.getenv(
-    "PHOENIX_OTLP_ENDPOINT", f"http://localhost:{PHOENIX_PORT}/v1/traces"
+_phoenix_otlp_raw = os.getenv("PHOENIX_OTLP_ENDPOINT")
+PHOENIX_OTLP_ENDPOINT: str = (
+    _phoenix_otlp_raw.strip()
+    if _phoenix_otlp_raw and _phoenix_otlp_raw.strip()
+    else f"http://localhost:{PHOENIX_PORT}/v1/traces"
 )
+
+# Cache
+CACHE_TTL: float = float(os.getenv("CACHE_TTL", "3600"))
+CACHE_MAXSIZE: int = int(os.getenv("CACHE_MAXSIZE", "200"))
+
+# Sessions
+SESSION_TTL: float = float(os.getenv("SESSION_TTL", "3600"))
+MAX_SESSION_MESSAGES: int = int(os.getenv("MAX_SESSION_MESSAGES", "10"))
 
 # Evals
 EVAL_DATASET_PATH: str = os.getenv("EVAL_DATASET_PATH", "data/eval_dataset.json")

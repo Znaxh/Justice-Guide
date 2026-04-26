@@ -11,3 +11,12 @@ services:
     environment:
       PHOENIX_PORT: ${PHOENIX_PORT:-6006}
       UV_PRERELEASE: allow
+
+  web:
+    build: ./apps/web
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    depends_on:
+      - api

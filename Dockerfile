@@ -9,8 +9,8 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:${PATH}"
 ENV UV_PRERELEASE=allow
 
-COPY pyproject.toml uv.lock ./
-RUN uv sync --no-dev --frozen
+COPY pyproject.toml ./
+RUN uv sync --no-dev
 
 COPY . .
 

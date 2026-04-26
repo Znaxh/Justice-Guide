@@ -73,5 +73,90 @@
     "question": "What is extortion?",
     "ground_truth": "Putting a person in fear of injury to dishonestly induce delivery of property.",
     "contexts": ["Extortion is intentionally putting a person in fear of injury to dishonestly induce them to deliver property or valuable security."]
+  },
+  {
+    "question": "What is IPC section 34?",
+    "ground_truth": "Section 34 fixes joint liability when several persons do a criminal act in furtherance of common intention.",
+    "contexts": ["When a criminal act is done by several persons in furtherance of common intention of all, each is liable for that act as if done by him alone."]
+  },
+  {
+    "question": "What is unlawful assembly under IPC?",
+    "ground_truth": "Section 141 IPC defines unlawful assembly as an assembly of five or more persons with a prohibited common object.",
+    "contexts": ["An assembly of five or more persons is unlawful if the common object falls within the objects listed under Section 141."]
+  },
+  {
+    "question": "What is rioting punishment under IPC?",
+    "ground_truth": "Rioting is punished under Sections 147 and 148 IPC, with stricter punishment where armed with deadly weapon.",
+    "contexts": ["Whoever is guilty of rioting shall be punished with imprisonment up to two years or with fine or with both."]
+  },
+  {
+    "question": "What is criminal intimidation under IPC?",
+    "ground_truth": "Section 503 IPC defines criminal intimidation as threatening injury to person, reputation, or property to cause alarm.",
+    "contexts": ["Criminal intimidation is threatening another with injury to person, reputation or property with intent to cause alarm."]
+  },
+  {
+    "question": "What is punishment under IPC section 506?",
+    "ground_truth": "Section 506 IPC prescribes punishment for criminal intimidation, with higher punishment for grave threats.",
+    "contexts": ["Whoever commits criminal intimidation shall be punished with imprisonment or fine or both; aggravated forms carry higher terms."]
+  },
+  {
+    "question": "What is hurt under IPC section 319?",
+    "ground_truth": "Section 319 says hurt means causing bodily pain, disease, or infirmity.",
+    "contexts": ["Whoever causes bodily pain, disease or infirmity to any person is said to cause hurt."]
+  },
+  {
+    "question": "What is grievous hurt under IPC?",
+    "ground_truth": "Section 320 IPC lists specified serious injuries that amount to grievous hurt.",
+    "contexts": ["The IPC enumerates kinds of grievous hurt, including emasculation, permanent loss of sight, fracture, and endangering life injuries."]
+  },
+  {
+    "question": "What is punishment for voluntarily causing hurt?",
+    "ground_truth": "Section 323 IPC punishes voluntarily causing hurt with imprisonment up to one year or fine up to one thousand rupees or both.",
+    "contexts": ["Whoever, except in the case provided by Section 334, voluntarily causes hurt, shall be punished with imprisonment up to one year, or fine, or both."]
+  },
+  {
+    "question": "What is attempt to murder under IPC?",
+    "ground_truth": "Section 307 IPC criminalizes acts done with intention or knowledge under circumstances that, if death were caused, would amount to murder.",
+    "contexts": ["Whoever does any act with such intention or knowledge and under such circumstances that if death had been caused the act would amount to murder is punishable under Section 307."]
+  },
+  {
+    "question": "What is robbery under IPC?",
+    "ground_truth": "Robbery is either theft or extortion accompanied by violence or fear of instant violence as defined in Section 390.",
+    "contexts": ["In all robbery there is either theft or extortion, with violence or fear of instant violence."]
+  },
+  {
+    "question": "What is punishment for robbery in IPC?",
+    "ground_truth": "Section 392 IPC punishes robbery with rigorous imprisonment up to ten years and fine, with enhanced punishment in certain situations.",
+    "contexts": ["Whoever commits robbery shall be punished with rigorous imprisonment which may extend to ten years and shall also be liable to fine."]
+  },
+  {
+    "question": "What is cheating under IPC section 415?",
+    "ground_truth": "Section 415 IPC defines cheating as deceiving a person to fraudulently or dishonestly induce delivery of property or consent to retain property, or to intentionally induce an act causing harm.",
+    "contexts": ["Whoever deceives any person and thereby fraudulently or dishonestly induces the person so deceived to deliver property commits cheating."]
+  },
+  {
+    "question": "What is forgery under IPC?",
+    "ground_truth": "Section 463 IPC defines forgery as making a false document or electronic record with intent to cause damage, support a claim, induce transfer, or commit fraud.",
+    "contexts": ["A person commits forgery if they make a false document or electronic record with intent specified in Section 463."]
+  },
+  {
+    "question": "What is defamation under IPC section 499?",
+    "ground_truth": "Section 499 IPC defines defamation as making or publishing imputations harming reputation, subject to statutory exceptions.",
+    "contexts": ["Whoever by words spoken or intended to be read, or by signs or visible representations, makes an imputation concerning any person intending to harm reputation commits defamation."]
+  },
+  {
+    "question": "What is kidnapping from lawful guardianship?",
+    "ground_truth": "It is taking or enticing a minor or person of unsound mind out of lawful guardian's keeping without consent.",
+    "contexts": ["Kidnapping from lawful guardianship occurs where a person takes or entices a minor or person of unsound mind from lawful guardian without consent."]
+  },
+  {
+    "question": "What is theft under IPC section 378?",
+    "ground_truth": "Theft is dishonest moving of movable property out of any person's possession without consent.",
+    "contexts": ["Whoever, intending to take dishonestly any movable property out of possession of any person without that person's consent, moves that property, commits theft."]
+  },
+  {
+    "question": "What is section 511 IPC about?",
+    "ground_truth": "Section 511 IPC provides punishment for attempting to commit offences punishable with imprisonment for life or other imprisonment where no express provision exists.",
+    "contexts": ["Whoever attempts to commit an offence punishable by this Code with imprisonment for life or imprisonment, and in such attempt does any act towards commission, may be punished under Section 511."]
   }
 ]
