@@ -10,8 +10,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# Root-only: avoid ignoring Next.js `apps/web/src/lib/` (path alias @/lib/*)
+/lib/
+/lib64/
 parts/
 sdist/
 var/
