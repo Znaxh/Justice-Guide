@@ -108,8 +108,16 @@ async def lifespan(app: FastAPI):
         )
     start_observability()
     loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, ensure_index_loaded)
-    logger.info("lifespan.index_prewarmed")
+
+    async def _prewarm_index() -> None:
+        try:
+            await loop.run_in_executor(None, ensure_index_loaded)
+            logger.info("lifespan.index_prewarmed")
+        except Exception:
+            logger.exception("lifespan.index_prewarm_failed")
+
+    # Bind HTTP immediately so Render detects PORT; first request waits on retrieval lock if still loading.
+    asyncio.create_task(_prewarm_index())
     yield
 
 
